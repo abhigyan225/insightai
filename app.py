@@ -7,11 +7,12 @@ st.set_page_config(page_title="InsightAI - Your Data Science Copilot", layout="w
 
 st.markdown("""
     <style>
-        /* Set entire page background */
+        /* Page background */
         .stApp {
             background-color: #8DE5C9;
         }
-        /* Content card */
+
+        /* Responsive container */
         .block-container {
             max-width: 1000px;
             margin: auto;
@@ -20,6 +21,7 @@ st.markdown("""
             border-radius: 15px;
             box-shadow: 0 0 15px rgba(0,0,0,0.1);
         }
+
         /* Title */
         .custom-title {
             color: #4B8BBE;
@@ -29,6 +31,7 @@ st.markdown("""
             margin-bottom: 0.2rem;
             font-family: 'Segoe UI', sans-serif;
         }
+
         /* Subheading */
         .custom-subtitle {
             color: #6c757d;
@@ -37,6 +40,7 @@ st.markdown("""
             margin-bottom: 2rem;
             font-family: 'Segoe UI', sans-serif;
         }
+
         /* Buttons */
         .stButton>button, .stDownloadButton>button {
             background-color: #4B8BBE;
@@ -46,21 +50,39 @@ st.markdown("""
             padding: 0.5rem 1rem;
             border: none;
         }
-        /* Text input */
+
+        /* Text inputs */
         .stTextInput>div>div>input,
         .stTextArea textarea {
             background-color: #f0f0f0;
             color: black;
             text-align: center;
+            font-size: 16px;
+        }
+
+        /* Responsive tweaks for mobile */
+        @media screen and (max-width: 768px) {
+            .custom-title {
+                font-size: 32px;
+            }
+            .custom-subtitle {
+                font-size: 16px;
+                padding: 0 1rem;
+            }
+            .block-container {
+                padding: 1rem;
+                margin: 0.5rem;
+            }
         }
     </style>
 """, unsafe_allow_html=True)
 
-# Now render the styled title + subheading
+# Render title and subheading
 st.markdown("""
     <div class='custom-title'>🤖 InsightAI</div>
     <div class='custom-subtitle'>Your smart, no-code data science copilot – explore, clean, visualize & model your data effortlessly.</div>
 """, unsafe_allow_html=True)
+
 
 
 # Upload CSV
