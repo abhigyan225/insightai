@@ -14,7 +14,7 @@ st.markdown("""
 
         /* Responsive container */
         .block-container {
-            max-width: 1000px;
+            max-width: 100%;
             margin: auto;
             padding: 2rem;
             background-color: #ffffff;
@@ -39,6 +39,13 @@ st.markdown("""
             text-align: center;
             margin-bottom: 2rem;
             font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* Ensure all default Streamlit headers are visible */
+        h1, h2, h3, h4 {
+            color: #4B8BBE;
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
         }
 
         /* Buttons */
