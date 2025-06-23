@@ -3,6 +3,7 @@ import pandas as pd
 import os
 
 
+
 st.set_page_config(page_title="InsightAI - Your Data Science Copilot", layout="wide")
 
 st.markdown("""
@@ -84,6 +85,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+
 # Render title and subheading
 st.markdown("""
     <div class='custom-title'>🤖 InsightAI</div>
@@ -129,13 +131,13 @@ if uploaded_file is not None and plot_query:
     else:
         st.error(message)
 
-import report_engine
+import predict_engine
 import uuid
 
 st.subheader("📄 Export Report")
 
 if st.button("Generate PDF Report"):
-    pdf = report_engine.PDF()
+    pdf = predict_engine.PDF()
     pdf.add_page()
     pdf.add_table(df)
 
@@ -368,6 +370,15 @@ if uploaded_file is not None:
 
             st.text("📋 Classification Report:")
             st.dataframe(report_df.style.format(precision=2))
+            # 🔽 Save model and input columns
+            import pickle
+            with open("trained_model.pkl", "wb") as f:
+               pickle.dump(model, f)
+
+            with open("input_columns.pkl", "wb") as f:
+               pickle.dump(X.columns.tolist(), f)
+
+            st.success("✅ Model and structure saved!")
 
 
         else:  # regression
@@ -377,6 +388,45 @@ if uploaded_file is not None:
 
             r2 = r2_score(y_test, y_pred)
             st.success(f"📈 R² Score: {r2:.2f}")
+            import pickle
+            with open("trained_model.pkl", "wb") as f:
+                pickle.dump(model, f)
+
+            with open("input_columns.pkl", "wb") as f:
+                pickle.dump(X.columns.tolist(), f)
+
+            st.success("✅ Model and structure saved!")
 else:
     st.info("Please upload a CSV file to begin.")
+
+import predict_engine  # ✅ Add this at the top of app.py with your other imports
+print("✅ LOADED MODULE FROM:", predict_engine.__file__)
+
+# 📡 NEW SECTION — Predict on new uploaded data
+st.subheader("📡 Predict Using Saved Model")
+
+new_data_file = st.file_uploader("Upload new data for prediction", type=["csv"], key="predict_upload")
+
+if new_data_file is not None:
+    df_predicted, status = predict_engine.predict_from_uploaded_file(new_data_file)
+
+    if df_predicted is not None:
+        st.success(status)
+        st.dataframe(df_predicted)
+
+        # Download predictions
+        csv = df_predicted.to_csv(index=False).encode('utf-8')
+        st.download_button(
+            label="📥 Download Predictions",
+            data=csv,
+            file_name="predictions.csv",
+            mime="text/csv"
+        )
+    else:
+        st.error(status)
+
+
+
+
+
 
